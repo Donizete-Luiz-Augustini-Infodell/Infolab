@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if modo == 'editar' else 'Nova' }} Pessoa{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2>{{ 'Editar Pessoa' if modo == 'editar' else 'Nova Pessoa' }}</h2>
+
+    <form method="POST" class="form-grid" novalidate>
+        <div class="form-group full">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required maxlength="150"
+                   value="{{ pessoa.nome if pessoa and pessoa.nome is defined else (pessoa.get('nome') if pessoa else '') }}"
+                   placeholder="Ex: Maria Silva">
+        </div>
+
+        <div class="form-group">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" name="cidade" required maxlength="100"
+                   value="{{ pessoa.cidade if pessoa and pessoa.cidade is defined else (pessoa.get('cidade') if pessoa else '') }}"
+                   placeholder="Ex: São Paulo">
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado (UF)</label>
+            <select id="estado" name="estado" required>
+                <option value="">— Selecione —</option>
+                {% set uf_atual = (pessoa.estado if pessoa and pessoa.estado is defined else (pessoa.get('estado') if pessoa else '')) %}
+                {% for uf in ufs|sort %}
+                    <option value="{{ uf }}" {% if uf_atual == uf %}selected{% endif %}>{{ uf }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-actions full">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">
+                {{ 'Salvar Alterações' if modo == 'editar' else 'Cadastrar' }}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

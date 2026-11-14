@@ -1,0 +1,22 @@
+# Ambiente virtual
+venv
+env/
+.venv/
+
+# Variáveis de ambiente (SENHAS!)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Sistema
+.DS_Store
+Thumbs.db

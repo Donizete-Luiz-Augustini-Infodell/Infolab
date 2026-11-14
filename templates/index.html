@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="toolbar">
+    <a href="{{ url_for('nova') }}" class="btn btn-primary">➕ Nova Pessoa</a>
+    <span class="counter">{{ pessoas|length }} registro(s)</span>
+</div>
+
+{% if pessoas %}
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th class="actions-col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pessoas %}
+            <tr>
+                <td data-label="ID">#{{ p.id }}</td>
+                <td data-label="Nome"><strong>{{ p.nome }}</strong></td>
+                <td data-label="Cidade">{{ p.cidade }}</td>
+                <td data-label="Estado"><span class="badge">{{ p.estado }}</span></td>
+                <td data-label="Ações" class="actions-col">
+                    <a href="{{ url_for('editar', pessoa_id=p.id) }}" class="btn btn-sm btn-edit">Editar</a>
+                    <form action="{{ url_for('deletar', pessoa_id=p.id) }}" method="POST" class="inline-form"
+                          onsubmit="return confirm('Remover {{ p.nome }}?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>📭 Nenhuma pessoa cadastrada ainda.</p>
+    <a href="{{ url_for('nova') }}" class="btn btn-primary">Cadastrar a primeira</a>
+</div>
+{% endif %}
+{% endblock %}
